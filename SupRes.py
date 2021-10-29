@@ -144,7 +144,7 @@ class SupRes:
 
     def save_levels(self, lev, write='w'):
         assert write == 'a' or write =='w', "Need w for write to new file or a for append"
-        with open('C://Users/Avi/Documents/Ninjatrader 8/sr.txt', write) as f:
+        with open('YOUR PATH/Ninjatrader 8/sr.txt', write) as f:
             for obj in lev:
                 f.write(str(obj) + '\n')
 
