@@ -3,7 +3,7 @@ import numpy as np
 from sklearn.cluster import KMeans
 import mplfinance
 
-class SupRes:
+class SupResPersonal:
 
     def __init__(self, dataframe) -> None:
         self.df = dataframe
@@ -17,6 +17,9 @@ class SupRes:
         self.ml_data = None
         self.search_key = None
         self.end_key = None
+    
+    def set_train_df(self, key):
+        self.train_df = key
     
     def set_search_key(self, key):
         self.search_key = key
@@ -40,7 +43,8 @@ class SupRes:
             self.train_df = self.get_train_data()
             self.train_df.index = list(range(0,len(self.train_df)))
             #self.ml_data = np.array(list(self.train_df['Close']) + list(self.train_df['High']) + list(self.train_df['Low']) + list(self.train_df['Open']))
-            self.ml_data = np.array(list(self.train_df['Close']))
+        self.ml_data = np.array(list(self.train_df['Close']))
+        print(self.train_df)
         self.compute_sr(ml)
 
     def convert_to_datetime(self):
@@ -122,6 +126,7 @@ class SupRes:
         else:
             ml = int(ml)
             self.ml_levels = []
+            print(self.ml_data)
             kmeans = KMeans(n_clusters=ml).fit(self.ml_data.reshape(-1,1))
             c = kmeans.predict(self.ml_data.reshape(-1,1))
             for i in range(int(ml)):
@@ -153,7 +158,7 @@ class SupRes:
 
     def save_data(self):
         self.train_df.to_csv('training.csv')
-
+        
     def save_levels(self, lev, write='w', market='es'):
         assert write == 'a' or write =='w', "Need w for write to new file or a for append"
         if market == 'es':
