@@ -1,0 +1,11 @@
+# Ignore Logs
+logs
+*.log
+
+# Ignore the data directory
+/data
+
+
+# Ignore IDE specific files
+.DS_Store
+
