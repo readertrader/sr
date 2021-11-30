@@ -14,9 +14,15 @@ def make_directory(ds):
     path = ds + d1
     if not os.path.exists(path):
         os.makedirs(path)
-    
-text_to_write = 'Date,Open,High,Low,Close\n'
 
+def move_and_prepend(source, end, fn):
+    make_directory(end)
+    text_to_write = 'Date,Open,High,Low,Close\n'
+    end_fn = end + fn
+    shutil.move(source, end_fn)
+    prepend(text_to_write, end_fn)
+
+"""
 typ = input("Type file ext: ")
 source_file = 'C:/Users/Avi/Documents/NinjaTrader 8/MyTestFile.txt'
 dump_site = "C:/Users/Avi/Documents/stock_bots/stocks/data/"
@@ -24,3 +30,10 @@ make_directory(dump_site)
 dump_site = dump_site + typ + '.txt'
 shutil.move(source_file, dump_site)
 prepend(text_to_write, dump_site)
+"""
+
+source_dir = 'C:/Users/Avi/Documents/NinjaTrader 8/'
+dump_site = "C:/Users/Avi/Documents/stock_bots/stocks/data/"
+for file in os.listdir(source_dir):
+    if '.txt' in file:
+        move_and_prepend(source_dir+file, dump_site, file)
