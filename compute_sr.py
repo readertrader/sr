@@ -34,9 +34,16 @@ def split_data(df):
             break
     return dfs  
 
+def write_output(outputs, fn):
+    with open(fn, 'w') as f:
+        for key, val in outputs.items():
+            f.write(str(key) + '\n')
+            for item in val:
+                f.write(str(item) + '\n')
+
 # Read Data
-file_ext = 'data/11.30.2021/nq15.txt'
-write_file = 'C://Users/Avi/Documents/Ninjatrader 8/sr/nq.txt'
+file_ext = 'data/11.30.2021/es15.txt'
+write_file = 'C://Users/Avi/Documents/Ninjatrader 8/sr/es2.txt'
 df = pd.read_csv(file_ext)
 
 #Initialize Model
@@ -52,14 +59,23 @@ for key, val in dfs.items():
     sr.filter_distance( sr.levels + sr.ml_levels )
     outputs[key] = sr.filtered_distance
 
+write_output(outputs, write_file)
+
+
+
+
+
+
+
+
+
+
+"""
 with open(write_file, 'w') as f:
     for key, val in outputs.items():
         f.write(str(key) + '\n')
         for item in val:
             f.write(str(item) + '\n')
-
-
-"""
 dfs.keys()
 sr.set_train_df(dfs['11/21/2021'])
 sr.get_levels(ml=7)
