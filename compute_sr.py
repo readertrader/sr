@@ -36,7 +36,7 @@ def split_data(df):
 
 # Read Data
 file_ext = 'data/11.30.2021/nq15.txt'
-write_file = 'C://Users/Avi/Documents/Ninjatrader 8/nq.txt'
+write_file = 'C://Users/Avi/Documents/Ninjatrader 8/sr/nq.txt'
 df = pd.read_csv(file_ext)
 
 #Initialize Model
