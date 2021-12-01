@@ -14,9 +14,10 @@ def make_directory(ds):
     path = ds + d1
     if not os.path.exists(path):
         os.makedirs(path)
+    return path + '/'
 
 def move_and_prepend(source, end, fn):
-    make_directory(end)
+    end = make_directory(end)
     text_to_write = 'Date,Open,High,Low,Close\n'
     end_fn = end + fn
     shutil.move(source, end_fn)
