@@ -35,6 +35,7 @@ class SupResPersonal:
             end = self.df[self.df['Date'].str.contains(self.end_key)].iloc[[0, ]].index[0]
         self.end_key = None
         self.search_key = None
+        #print(self.df.tail())
         return self.df.iloc[start:end]
     
     def get_levels(self, ml=False):
@@ -43,6 +44,7 @@ class SupResPersonal:
             self.train_df.index = list(range(0,len(self.train_df)))
             #self.ml_data = np.array(list(self.train_df['Close']) + list(self.train_df['High']) + list(self.train_df['Low']) + list(self.train_df['Open']))
         self.ml_data = np.array(list(self.train_df['Close']))
+        #print(self.train_df)
         self.compute_sr(ml)
 
     def convert_to_datetime(self):
@@ -124,6 +126,7 @@ class SupResPersonal:
         else:
             ml = int(ml)
             self.ml_levels = []
+            #print(self.ml_data)
             kmeans = KMeans(n_clusters=ml).fit(self.ml_data.reshape(-1,1))
             c = kmeans.predict(self.ml_data.reshape(-1,1))
             for i in range(int(ml)):
