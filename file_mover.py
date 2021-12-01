@@ -23,6 +23,19 @@ def move_and_prepend(source, end, fn):
     shutil.move(source, end_fn)
     prepend(text_to_write, end_fn)
 
+source_dir = 'C:/Users/Avi/Documents/NinjaTrader 8/'
+dump_site = "C:/Users/Avi/Documents/stock_bots/stocks/data/"
+for file in os.listdir(source_dir):
+    if '.txt' in file:
+        move_and_prepend(source_dir+file, dump_site, file)
+
+
+
+
+
+
+
+
 """
 typ = input("Type file ext: ")
 source_file = 'C:/Users/Avi/Documents/NinjaTrader 8/MyTestFile.txt'
@@ -32,9 +45,3 @@ dump_site = dump_site + typ + '.txt'
 shutil.move(source_file, dump_site)
 prepend(text_to_write, dump_site)
 """
-
-source_dir = 'C:/Users/Avi/Documents/NinjaTrader 8/'
-dump_site = "C:/Users/Avi/Documents/stock_bots/stocks/data/"
-for file in os.listdir(source_dir):
-    if '.txt' in file:
-        move_and_prepend(source_dir+file, dump_site, file)
