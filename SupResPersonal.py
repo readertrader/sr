@@ -1,3 +1,4 @@
+from numpy.lib.function_base import append
 import pandas as pd
 import numpy as np
 from sklearn.cluster import KMeans
@@ -77,6 +78,22 @@ class SupResPersonal:
 
         return resistance
 
+    def filter_time(self, ll):
+        temp = [[ll[-1]]]
+        for i in reversed(range(1, len(ll)-1)):
+            appended = False
+            for j in temp:
+                if min(j) - .5 <= ll[i] <= max(j) + .5:
+                    j.append(ll[i])
+                    j = [min(j), max(j)]
+                    appended = True
+                    break
+            if not appended:
+                temp.append([ll[i]])
+            final = self.flatten(temp)
+            return final
+
+
     def filter_levels(self, ll):
         final = []
         ll.sort()
@@ -126,7 +143,7 @@ class SupResPersonal:
         else:
             ml = int(ml)
             self.ml_levels = []
-            #print(self.ml_data)
+            print(self.ml_data)
             kmeans = KMeans(n_clusters=ml).fit(self.ml_data.reshape(-1,1))
             c = kmeans.predict(self.ml_data.reshape(-1,1))
             for i in range(int(ml)):
