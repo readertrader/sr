@@ -24,7 +24,7 @@ def move_and_prepend(source, end, fn):
     prepend(text_to_write, end_fn)
 
 source_dir = 'C:/Users/Avi/Documents/NinjaTrader 8/'
-dump_site = "C:/Users/Avi/Documents/stock_bots/stocks/data/"
+dump_site = "C:/Users/Avi/Documents/stock_bots/data/"
 for file in os.listdir(source_dir):
     if '.txt' in file:
         move_and_prepend(source_dir+file, dump_site, file)
