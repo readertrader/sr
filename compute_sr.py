@@ -73,6 +73,21 @@ def write_output(outputs, fn):
             for item in val:
                 f.write(str(item) + '\n')
 
+def live_split(df, days=5):
+    current_date = df.iloc[-1]['Date'].split(' ')[0]
+    search_eod = False
+    for i in reversed(range(len(df))):
+        if df.iloc[i]['Date'].split(' ')[0] != current_date and not search_eod:
+            days = days - 1
+            current_date = df.iloc[i]['Date'].split(' ')[0]
+        if days == 0:
+            search_eod = True
+        if search_eod:
+            if ' 18:' in df.iloc[i]['Date']:
+                idx = i
+                break
+    return df.iloc[i:]
+
 def time_historical(df, ml=7, length=5):
     sr = spr(df)
     df = sr.df
@@ -91,12 +106,33 @@ def time_historical(df, ml=7, length=5):
         outputs[key] = sr.filtered_distance
     return outputs
 
-        
+
+def time_live(df, ml=7, length=5):
+    sr = spr(df)
+    df = sr.df
+    new_df = live_split(df)
+    outputs = {}
+    sr.set_train_df(new_df)
+    sr.get_levels()
+    if ml is not None:
+        sr.get_levels(ml)
+        sr.filter_distance(sr.levels + sr.ml_levels)
+    else:
+        sr.filter_distance(sr.levels)
+    date = new_df.iloc[-1]['Date'].split(' ')[0]
+    outputs[date] = sr.filtered_distance
+    return outputs
 
 # Read Data
 file_ext = 'data/12.17.2021/es15.txt'
 write_file = 'C://Users/Avi/Documents/Ninjatrader 8/sr/es15.txt'
 df = pd.read_csv(file_ext)
+
+outputs = time_historical(df, None)
+write_output(outputs, write_file)
+
+
+
 """
 #Initialize Model
 sr = spr(df)
@@ -113,12 +149,6 @@ for key, val in dfs.items():
     sr.filter_distance( sr.levels )
     outputs[key] = sr.filtered_distance
 """
-outputs = time_historical(df, None)
-write_output(outputs, write_file)
-
-
-
-
 
 """
 with open(write_file, 'w') as f:
