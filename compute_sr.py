@@ -73,11 +73,31 @@ def write_output(outputs, fn):
             for item in val:
                 f.write(str(item) + '\n')
 
+def time_historical(df, ml=7, length=5):
+    sr = spr(df)
+    df = sr.df
+    dfs = split_data(df,length)
+    outputs = {}
+    for key, val in dfs.items():
+        if len(val) < 2:
+            continue
+        sr.set_train_df(val)
+        sr.get_levels()
+        if ml is not None:
+            sr.get_levels(ml)
+            sr.filter_distance(sr.levels + sr.ml_levels)
+        else:
+            sr.filter_distance(sr.levels)
+        outputs[key] = sr.filtered_distance
+    return outputs
+
+        
+
 # Read Data
 file_ext = 'data/12.17.2021/es15.txt'
 write_file = 'C://Users/Avi/Documents/Ninjatrader 8/sr/es15.txt'
 df = pd.read_csv(file_ext)
-
+"""
 #Initialize Model
 sr = spr(df)
 df = sr.df
@@ -92,7 +112,8 @@ for key, val in dfs.items():
     sr.get_levels()
     sr.filter_distance( sr.levels )
     outputs[key] = sr.filtered_distance
-
+"""
+outputs = time_historical(df, None)
 write_output(outputs, write_file)
 
 
