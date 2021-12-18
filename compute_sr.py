@@ -7,7 +7,7 @@ from sklearn.cluster import KMeans
 from SupResPersonal import SupResPersonal as spr
 import matplotlib.pyplot as plt
 
-def split_data_tick(df, days=5):
+def split_data_tick(df, days=3):
     idxs = []
     dfs = {}
     found_9 = False
@@ -74,8 +74,8 @@ def write_output(outputs, fn):
                 f.write(str(item) + '\n')
 
 # Read Data
-file_ext = 'data/11.30.2021/es15.txt'
-write_file = 'C://Users/Avi/Documents/Ninjatrader 8/sr/es.txt'
+file_ext = 'data/12.17.2021/es15.txt'
+write_file = 'C://Users/Avi/Documents/Ninjatrader 8/sr/es15.txt'
 df = pd.read_csv(file_ext)
 
 #Initialize Model
@@ -90,15 +90,10 @@ for key, val in dfs.items():
     sr.set_train_df(val)
     sr.get_levels(ml=7)
     sr.get_levels()
-    sr.filter_distance( sr.levels + sr.ml_levels )
+    sr.filter_distance( sr.levels )
     outputs[key] = sr.filtered_distance
 
 write_output(outputs, write_file)
-
-
-
-
-
 
 
 
